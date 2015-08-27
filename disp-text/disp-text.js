@@ -1,13 +1,20 @@
 /** @jsx React.DOM */
 
 var InputBox = React.createClass({
+    getInitialState: function() {
+        return ({inputtext: ''});
+    },
+
+    handleChange: function() {
+        console.log("handleChange()" , this.state.inputtext);
+        this.setState({inputtext: this.state.inputtext});
+        this.props.callbackParent(this.state.inputtext);
+    },
 
     render: function() {
+        console.log("Render: inputtext: ", this.state.inputtext);
         return (
-            <div>
-            <input type="text" value={this.props.value} ref="textbox" onChange={this.props.handleChange}/>
-            <h2>{this.props.value}</h2>
-            </div>
+            <input type="text" onChange={this.handleChange}/>
         );
     }
 });
@@ -28,22 +35,21 @@ var ActionButton = React.createClass({
 });
 
 var DisplayArea = React.createClass({
-    /*
     getInitialState: function() {
         return({text: "Not clicked"});
     },
 
-    */
     handleChange: function(e) {
         console.log("DisplayArea: In handleChange(): ", e);
-        this.setState({text: "Clicked"});
+        this.setState({text: this.state.e});
     },
 
     render: function() {
         return(
             <div>
-                <InputBox value="Type something here..." whenChanged={this.handleChange}/>
+                <InputBox callbackParent={this.handleChange}/>
                 <ActionButton value="Show text" onAction={this.handleAction}/>
+                <h2>{this.state.text}</h2>
             </div>
             
         );
