@@ -6,13 +6,11 @@ var InputBox = React.createClass({
     },
 
     handleChange: function() {
-        console.log("handleChange()" , this.state.inputtext);
         this.setState({inputtext: this.state.inputtext});
         this.props.callbackParent(this.state.inputtext);
     },
 
     render: function() {
-        console.log("Render: inputtext: ", this.state.inputtext);
         return (
             <input type="text" onChange={this.handleChange}/>
         );
@@ -22,14 +20,13 @@ var InputBox = React.createClass({
 var ActionButton = React.createClass({
     handleAction: function() {
         this.setState();
-        console.log("onAction");
     },
 
     render: function() {
         return(
             <input type="button"
                 value={this.props.value} 
-                onClick={this.props.onAction} />
+                onClick={this.onAction} />
         );
     }
 });
@@ -40,7 +37,6 @@ var DisplayArea = React.createClass({
     },
 
     handleChange: function(e) {
-        console.log("DisplayArea: In handleChange(): ", e);
         this.setState({text: this.state.e});
     },
 
