@@ -1,51 +1,72 @@
 /** @jsx React.DOM */
 
-var InputBox = React.createClass({
-    getInitialState: function() {
-        return ({inputtext: ''});
-    },
-
-    handleChange: function() {
-        this.setState({inputtext: this.state.inputtext});
-        this.props.callbackParent(this.state.inputtext);
-    },
-
-    render: function() {
-        return (
-            <input type="text" onChange={this.handleChange}/>
-        );
-    }
-});
-
 var ActionButton = React.createClass({
-    handleAction: function() {
-        this.setState();
+    handleClickAction: function() {
+        //console.log("Button clicked (child). Invoking parent callback");
+        this.props.notifyParent();
     },
 
     render: function() {
         return(
             <input type="button"
                 value={this.props.value} 
-                onClick={this.onAction} />
+                onClick={this.props.notifyParent} />
+        );
+    }
+});
+
+var InputBox = React.createClass({
+    getInitialState: function() {
+        return ({inputtext: " "});
+    },
+
+    handleChange: function() {
+        // Find the input DOM Element using refs, and retrieve its value;
+        var changedText = React.findDOMNode (this.refs.myInput).value;
+
+        // Trigger render and set inputtext to new text;
+        this.setState({inputtext: changedText});
+
+        // Inform parent about the change;
+        this.props.callbackParent(changedText);
+    },
+
+    render: function() {
+        return (
+            <input type="text" ref="myInput" onChange={this.handleChange}/>
         );
     }
 });
 
 var DisplayArea = React.createClass({
     getInitialState: function() {
-        return({text: "Not clicked"});
+        return({displaytext: ''});
     },
 
-    handleChange: function(e) {
-        this.setState({text: this.state.e});
+    handleTextChange: function(newText) {
+        // Store the new text in my state;
+        // Don't trigger UI re-render;
+        this.state.displaytext = newText;
+    },
+
+    handleClickAction: function(newText) {
+        //console.log("Button clicked (parent). State: ", this.state);
+        this.setState();
     },
 
     render: function() {
+
+        // Decide whether to display the text (if len > 0), or <null>
+        var text = this.state.displaytext.length ? this.state.displaytext : "<null>";
+
+        // Text + callback to self, to notify of text entry;
+        // Button + callback to self, to notify of click;
+        // Placeholder to display entered text;
         return(
             <div>
-                <InputBox callbackParent={this.handleChange}/>
-                <ActionButton value="Show text" onAction={this.handleAction}/>
-                <h2>{this.state.text}</h2>
+                <InputBox callbackParent={this.handleTextChange} />
+                <ActionButton value="Show text" notifyParent={this.handleClickAction}/>
+                <h2>Text entered is: {text}</h2>
             </div>
             
         );
