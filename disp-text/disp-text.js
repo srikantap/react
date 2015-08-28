@@ -1,8 +1,6 @@
-/** @jsx React.DOM */
 
 var ActionButton = React.createClass({
     handleClickAction: function() {
-        //console.log("Button clicked (child). Invoking parent callback");
         this.props.notifyParent();
     },
 
@@ -17,7 +15,7 @@ var ActionButton = React.createClass({
 
 var InputBox = React.createClass({
     getInitialState: function() {
-        return ({inputtext: " "});
+        return ({inputtext: ''});
     },
 
     handleChange: function() {
@@ -50,7 +48,7 @@ var DisplayArea = React.createClass({
     },
 
     handleClickAction: function(newText) {
-        //console.log("Button clicked (parent). State: ", this.state);
+        // Show button has been clicked. So trigger render.
         this.setState();
     },
 
