@@ -38,7 +38,8 @@ var InputBox = React.createClass({
 
 var DisplayArea = React.createClass({
     getInitialState: function() {
-        return({displaytext: ''});
+        return({displaytext: '',
+            concattext: ''});
     },
 
     handleTextChange: function(newText) {
@@ -47,7 +48,7 @@ var DisplayArea = React.createClass({
         this.state.displaytext = newText;
     },
 
-    handleClickAction: function(newText) {
+    handleClickAction: function() {
         // Show button has been clicked. So trigger render.
         this.setState();
     },
